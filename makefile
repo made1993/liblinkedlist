@@ -11,4 +11,4 @@ clean:
 
 linkedList.o:
 	mkdir obj
-gcc -c src/linkedList.c -o obj/linkedList.o
+	gcc -c src/linkedList.c -o obj/linkedList.o
