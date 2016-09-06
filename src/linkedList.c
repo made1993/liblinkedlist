@@ -38,11 +38,11 @@ int delete_elem_list(LinkedList * l, void * elem){
   if (l == NULL || elem == NULL) return ERR;
 
   /*La lista esta vacia*/
-  if (is_empty_list(l) == true) return false;
+  if (is_empty_list(l)) return false;
 
   /*Si el elemento fuera el primero de todos*/
   node = l->first;
-  if (l->cmp(elem, node->data) == true){
+  if (!l->cmp(elem, node->data)){
     l->first = node->next;
     destroy_node(node);
     return true;
@@ -51,7 +51,7 @@ int delete_elem_list(LinkedList * l, void * elem){
   node_prev = l->first;
   node = l->first->next;
   while (node != NULL){
-    if (l->cmp(elem, node->data) == true){
+    if (!l->cmp(elem, node->data)){
       /*Hemos encontrado el elemento*/
       if (node->next == NULL){
         /*El elemento es el ultimo, redefinimos last*/
@@ -81,13 +81,12 @@ int is_empty_list(LinkedList * l) {
 void * find(void * k, LinkedList * l) {
 
   if (k == NULL || l == NULL) {
-    syslog(LOG_ERR, "Error al buscar un elemento en la lista, "
-        "debido a un puntero nulo");
+    syslog(LOG_ERR, "Error querying the list, due to a null pointer");
     exit(EXIT_FAILURE);
   }
 
   for (Node * n = l->first; n != NULL; n = n->next) {
-    if (l->cmp(k, n->data) == true) return n->data;
+    if (!l->cmp(k, n->data)) return n->data;
   }
 
   return NULL;
@@ -103,7 +102,7 @@ int insert_list(LinkedList * l, void * elem){
 
   node->data = elem;
   node->next = NULL;
-  if (is_empty_list(l) == true){
+  if (is_empty_list(l)){
     l->first = node;
     l->last = node;
     return true;
@@ -132,4 +131,5 @@ void destroy_list (LinkedList * l){
     l->cmp = NULL;
     free(l);
   }
+
 }
