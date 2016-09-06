@@ -1,9 +1,6 @@
 #ifndef LIST_H
 
-#include <stdio.h>
 #include <stdlib.h>
-#include <syslog.h>
-#include <stdbool.h>
 
 #ifndef ERR
 #define ERR -1
