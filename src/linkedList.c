@@ -34,38 +34,31 @@ int delete_elem_list(LinkedList * l, void * elem){
   Node * node;
   Node * node_prev;
 
-  /*Error en el paso de argumentos*/
   if (l == NULL || elem == NULL) return ERR;
 
-  /*La lista esta vacia*/
   if (is_empty_list(l)) return false;
 
-  /*Si el elemento fuera el primero de todos*/
   node = l->first;
   if (!l->cmp(elem, node->data)){
     l->first = node->next;
     destroy_node(node);
     return true;
   }
-  /*Busqueda del elemento*/
+
   node_prev = l->first;
   node = l->first->next;
   while (node != NULL){
     if (!l->cmp(elem, node->data)){
-      /*Hemos encontrado el elemento*/
       if (node->next == NULL){
-        /*El elemento es el ultimo, redefinimos last*/
         l->last = node_prev;
       }
       node_prev->next = node->next;
       destroy_node(node);
       return true;
     }
-    /*No era el objetivo, continuamos buscando*/
     node_prev = node;
     node = node->next;
   }
-  /*El elemento no ha sido encontrado*/
   return false;
 
 }
