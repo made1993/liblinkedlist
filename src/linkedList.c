@@ -1,3 +1,7 @@
+#include <stdbool.h>
+#include <stdio.h>
+#include <syslog.h>
+
 #include "../includes/linkedList.h"
 
 LinkedList * create_list(comparator c) {
