@@ -15,4 +15,5 @@ linkedList.o:
 
 tests:
 	mkdir -p tests
-	gcc $(FLAGS) src/tests/test.c -Llibs -llinkedList -o tests/test
+	gcc $(FLAGS) src/tests/test_create.c -Llibs -llinkedList -o tests/test_create
+	gcc $(FLAGS) src/tests/test_insert.c -Llibs -llinkedList -o tests/test_insert
