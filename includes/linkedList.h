@@ -6,6 +6,13 @@
 #define ERR -1
 #endif
 
+/**
+ * Comparator follows the strcmp() paradigm:
+ *    · Return 0 if equals
+ *    · Return n (positive or negative) that represents the
+ *      difference otherwise
+ * */
+
 typedef int (*comparator)(const void *a, const void *b);
 
 typedef struct Node{
