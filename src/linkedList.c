@@ -1,6 +1,4 @@
 #include <stdbool.h>
-#include <stdio.h>
-#include <syslog.h>
 
 #include "../includes/linkedList.h"
 
@@ -34,38 +32,31 @@ int delete_elem_list(LinkedList * l, void * elem){
   Node * node;
   Node * node_prev;
 
-  /*Error en el paso de argumentos*/
   if (l == NULL || elem == NULL) return ERR;
 
-  /*La lista esta vacia*/
-  if (is_empty_list(l) == true) return false;
+  if (is_empty_list(l)) return false;
 
-  /*Si el elemento fuera el primero de todos*/
   node = l->first;
-  if (l->cmp(elem, node->data) == true){
+  if (!l->cmp(elem, node->data)){
     l->first = node->next;
     destroy_node(node);
     return true;
   }
-  /*Busqueda del elemento*/
+
   node_prev = l->first;
   node = l->first->next;
   while (node != NULL){
-    if (l->cmp(elem, node->data) == true){
-      /*Hemos encontrado el elemento*/
+    if (!l->cmp(elem, node->data)){
       if (node->next == NULL){
-        /*El elemento es el ultimo, redefinimos last*/
         l->last = node_prev;
       }
       node_prev->next = node->next;
       destroy_node(node);
       return true;
     }
-    /*No era el objetivo, continuamos buscando*/
     node_prev = node;
     node = node->next;
   }
-  /*El elemento no ha sido encontrado*/
   return false;
 
 }
@@ -80,14 +71,10 @@ int is_empty_list(LinkedList * l) {
 
 void * find(void * k, LinkedList * l) {
 
-  if (k == NULL || l == NULL) {
-    syslog(LOG_ERR, "Error al buscar un elemento en la lista, "
-        "debido a un puntero nulo");
-    exit(EXIT_FAILURE);
-  }
+  if (k == NULL || l == NULL) return NULL;
 
   for (Node * n = l->first; n != NULL; n = n->next) {
-    if (l->cmp(k, n->data) == true) return n->data;
+    if (!l->cmp(k, n->data)) return n->data;
   }
 
   return NULL;
@@ -103,7 +90,7 @@ int insert_list(LinkedList * l, void * elem){
 
   node->data = elem;
   node->next = NULL;
-  if (is_empty_list(l) == true){
+  if (is_empty_list(l)){
     l->first = node;
     l->last = node;
     return true;
@@ -132,4 +119,5 @@ void destroy_list (LinkedList * l){
     l->cmp = NULL;
     free(l);
   }
+
 }
