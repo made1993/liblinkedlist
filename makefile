@@ -1,6 +1,6 @@
 FLAGS=-Wall -std=gnu99 -pedantic -O3
 
-all: linkedList.o lib
+all: linkedList.o lib tests
 
 lib: obj/linkedList.o
 	mkdir -p libs
