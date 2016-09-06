@@ -1,6 +1,4 @@
 #include <stdbool.h>
-#include <stdio.h>
-#include <syslog.h>
 
 #include "../includes/linkedList.h"
 
@@ -73,10 +71,7 @@ int is_empty_list(LinkedList * l) {
 
 void * find(void * k, LinkedList * l) {
 
-  if (k == NULL || l == NULL) {
-    syslog(LOG_ERR, "Error querying the list, due to a null pointer");
-    exit(EXIT_FAILURE);
-  }
+  if (k == NULL || l == NULL) return NULL;
 
   for (Node * n = l->first; n != NULL; n = n->next) {
     if (!l->cmp(k, n->data)) return n->data;
