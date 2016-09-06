@@ -1,12 +1,14 @@
-flags= -Wall -ansi
+flags= -Wall -std=c11 -pedantic
 
-all: linkedList.o lib 
+all: linkedList.o lib
 
 lib: obj/linkedList.o
+	mkdir lib
 	ar r  lib/liblinkedList.a obj/linkedList.o
 
 clean:
-	rm -f obj/*.o lib/*.a
+	rm -rf obj lib
 
 linkedList.o:
-	gcc -o obj/linkedList.o -c src/linkedList.c
+	mkdir obj
+gcc -c src/linkedList.c -o obj/linkedList.o

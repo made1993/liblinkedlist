@@ -6,9 +6,9 @@
 
 #define TRUE 1
 #define FALSE 0
- 
+
 typedef int (*comparator)(const void *a, const void *b);
- 
+
 typedef struct Node{
     void * data;
     struct Node * next;
@@ -36,8 +36,5 @@ int insert_list(LinkedList * l, void * elem);
 int destroy_all_nodes (Node * first);
 
 int destroy_list (LinkedList * lista);
- 
 
- 
-#endif 
-
+#endif
