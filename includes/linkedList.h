@@ -5,6 +5,10 @@
 #include <syslog.h>
 #include <stdbool.h>
 
+#ifndef ERR
+#define ERR -1
+#endif
+
 typedef int (*comparator)(const void *a, const void *b);
 
 typedef struct Node{
@@ -50,7 +54,7 @@ typedef struct {
  * \b is_empty_list(3), \b find(3), \b insert_list(3), \b destroy_all_nodes(3)
  */
 
-LinkedList * create_list(comparator comparacion);
+LinkedList * create_list(comparator c);
 
 /**
  * @page destroy_node \b destroy_node
@@ -82,7 +86,7 @@ LinkedList * create_list(comparator comparacion);
  * \b is_empty_list(3), \b find(3), \b insert_list(3), \b destroy_all_nodes(3)
  */
 
-void *  destroy_node(Node * n);
+void destroy_node(Node * n);
 
 /**
  * @page delete_elem_list \b delete_elem_list
@@ -184,7 +188,7 @@ int is_empty_list(LinkedList * l);
  * Ángel Fuente (angel.fuente@estudiante.uam.es)
  */
 
-void* find(void *clave, LinkedList *l);
+void * find(void * k, LinkedList *l);
 
 /*
  * @page insert_list \b insert_list
@@ -252,7 +256,7 @@ int insert_list(LinkedList * l, void * elem);
  * Adrian Bueno (adrian.buenoj@estudiante.uam.es)
  */
 
-int destroy_all_nodes (Node * first);
+void destroy_all_nodes (Node * first);
 
 /**
  * @page destroy_list \b destroy_list
@@ -287,6 +291,6 @@ int destroy_all_nodes (Node * first);
  * Adrian Bueno (adrian.buenoj@estudiante.uam.es)
  */
 
-int destroy_list (LinkedList * lista);
+void destroy_list (LinkedList * l);
 
 #endif

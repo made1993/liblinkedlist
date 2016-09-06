@@ -1,138 +1,131 @@
 #include "../includes/linkedList.h"
 
-LinkedList * create_list(comparator comparacion) {
-  if(comparacion == NULL) return NULL;
+LinkedList * create_list(comparator c) {
 
-  LinkedList * lista = (LinkedList *) malloc(sizeof(LinkedList));
-  if(lista == NULL) return NULL;
+  if (c == NULL) return NULL;
 
-  lista->cmp = comparacion;
-  lista->first = NULL;
-  lista->last = NULL;
+  LinkedList * l;
 
-  return lista;
+  if ((l = malloc(sizeof(l[0]))) == NULL) return NULL;
+
+  l->cmp = c;
+  l->first = NULL;
+  l->last = NULL;
+
+  return l;
+
 }
 
-void *  destroy_node(Node * n) {
+void destroy_node(Node * n) {
+
   n->data = NULL;
   n->next = NULL;
   free(n);
   n = NULL;
 
-  return (void*) n;
 }
 
 int delete_elem_list(LinkedList * l, void * elem){
+
   Node * node;
-  Node * node_anterior;
+  Node * node_prev;
+
   /*Error en el paso de argumentos*/
-  if (l == NULL || elem == NULL){
-    return -1;
-  }
+  if (l == NULL || elem == NULL) return ERR;
+
   /*La lista esta vacia*/
-  if (is_empty_list(l)==true){
-    return -1;
-  }
+  if (is_empty_list(l) == true) return false;
 
   /*Si el elemento fuera el primero de todos*/
   node = l->first;
-  if(l->cmp(elem, node->data)==true){
+  if (l->cmp(elem, node->data) == true){
     l->first = node->next;
-    node = destroy_node(node);
-    return 1;
+    destroy_node(node);
+    return true;
   }
   /*Busqueda del elemento*/
-  node_anterior = l->first;
+  node_prev = l->first;
   node = l->first->next;
-  while(node!=NULL){
-    if(l->cmp(elem, node->data)==true){
+  while (node != NULL){
+    if (l->cmp(elem, node->data) == true){
       /*Hemos encontrado el elemento*/
-      if(node->next==NULL){
+      if (node->next == NULL){
         /*El elemento es el ultimo, redefinimos last*/
-        l->last = node_anterior;
+        l->last = node_prev;
       }
-      node_anterior->next = node->next;
-      node = destroy_node(node);
-      return 1;
+      node_prev->next = node->next;
+      destroy_node(node);
+      return true;
     }
     /*No era el objetivo, continuamos buscando*/
-    node_anterior = node;
+    node_prev = node;
     node = node->next;
   }
   /*El elemento no ha sido encontrado*/
-  return 0;
+  return false;
+
 }
 
 int is_empty_list(LinkedList * l) {
-  if(l == NULL){
-    return -1;
-  }
-  if(l->first == NULL){
-    return true;
-  }
-  return false;
+
+  if (l == NULL) return ERR;
+
+  return l->first == NULL ? true : false;
+
 }
 
-void* find(void *clave, LinkedList *l) {
-  Node *nodoaux = NULL;
+void * find(void * k, LinkedList * l) {
 
-  if (!clave || !l) {
+  if (k == NULL || l == NULL) {
     syslog(LOG_ERR, "Error al buscar un elemento en la lista, "
-                    "debido a un puntero nulo");
+        "debido a un puntero nulo");
     exit(EXIT_FAILURE);
   }
 
-
-  for (nodoaux = l->first; nodoaux != NULL; nodoaux = nodoaux->next) {
-    if (l->cmp(clave, nodoaux->data) == true) {
-      return nodoaux->data;
-    }
+  for (Node * n = l->first; n != NULL; n = n->next) {
+    if (l->cmp(k, n->data) == true) return n->data;
   }
+
   return NULL;
+
 }
 
 int insert_list(LinkedList * l, void * elem){
+
+  if (l == NULL || elem == NULL) return ERR;
+
   Node * node;
-  if (l == NULL || elem == NULL){
-    return -1;
-  }
-  node = (Node *) malloc(sizeof (Node));
-  if (node == NULL){
-    return -1;
-  }
+  if ((node = malloc(sizeof(node[0]))) == NULL) return ERR;
+
   node->data = elem;
   node->next = NULL;
-  if (is_empty_list(l)==true){
+  if (is_empty_list(l) == true){
     l->first = node;
     l->last = node;
-    return 1;
+    return true;
   }
   l->last->next = node;
   l->last = node;
-  return 1;
+  return true;
+
 }
-int destroy_all_nodes (Node * first){
+
+void destroy_all_nodes (Node * first){
+
   if (first != NULL){
     destroy_all_nodes(first->next);
-
-    first = destroy_node(first);
+    destroy_node(first);
   }
-  return 0;
+
 }
 
-int destroy_list (LinkedList * lista){
+void destroy_list (LinkedList * l){
 
-  if (lista == NULL)
-    return -1;
-
-  if (is_empty_list(lista) == false){
-    destroy_all_nodes(lista->first);
+  if (l != NULL){
+    if (!is_empty_list(l)) destroy_all_nodes(l->first);
+    l->first = NULL;
+    l->last = NULL;
+    l->cmp = NULL;
+    free(l);
   }
-
-  lista->first = NULL;
-  lista->last = NULL;
-  lista->cmp = NULL;
-  free(lista);
-
-  return 0;
 }
