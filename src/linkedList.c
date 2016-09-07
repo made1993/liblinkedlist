@@ -27,7 +27,7 @@ void destroy_node(Node * n) {
 
 }
 
-int delete_elem_list(LinkedList * l, void * elem){
+int delete_elem_list(LinkedList * l, const void * elem){
 
   Node * node;
   Node * node_prev;
@@ -61,7 +61,7 @@ int delete_elem_list(LinkedList * l, void * elem){
 
 }
 
-int is_empty_list(LinkedList * l) {
+int is_empty_list(const LinkedList * l) {
 
   if (l == NULL) return ERR;
 
@@ -69,7 +69,7 @@ int is_empty_list(LinkedList * l) {
 
 }
 
-void * find(void * k, LinkedList * l) {
+const void * find(const void * k, const LinkedList * l) {
 
   if (k == NULL || l == NULL) return NULL;
 
@@ -81,7 +81,7 @@ void * find(void * k, LinkedList * l) {
 
 }
 
-int insert_list(LinkedList * l, void * elem){
+int insert_list(LinkedList * l, const void * elem){
 
   if (l == NULL || elem == NULL) return ERR;
 

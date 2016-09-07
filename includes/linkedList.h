@@ -16,7 +16,7 @@
 typedef int (*comparator)(const void *a, const void *b);
 
 typedef struct Node{
-    void * data;
+    const void * data;
     struct Node * next;
 } Node;
 
@@ -128,7 +128,7 @@ void destroy_node(Node * n);
  * Jorge Guillen (jorge.guillen@estudiante.uam.es)
  */
 
-int delete_elem_list(LinkedList * l, void * elem);
+int delete_elem_list(LinkedList * l, const void * elem);
 
 /**
  * @page delete_elem_list \b delete_elem_list
@@ -157,7 +157,7 @@ int delete_elem_list(LinkedList * l, void * elem);
  * \b delete_elem_list(3), \b find(3), \b insert_list(3), \b destroy_all_nodes(3)
  */
 
-int is_empty_list(LinkedList * l);
+int is_empty_list(const LinkedList * l);
 
 /**
  * @page find \b find
@@ -192,7 +192,7 @@ int is_empty_list(LinkedList * l);
  * Ángel Fuente (angel.fuente@estudiante.uam.es)
  */
 
-void * find(void * k, LinkedList *l);
+const void * find(const void * k, const LinkedList *l);
 
 /*
  * @page insert_list \b insert_list
@@ -224,7 +224,7 @@ void * find(void * k, LinkedList *l);
  * \b destroy_all_nodes(3)
  */
 
-int insert_list(LinkedList * l, void * elem);
+int insert_list(LinkedList * l, const void * elem);
 
 /**
  * @page destroy_all_nodes \b destroy_all_nodes
